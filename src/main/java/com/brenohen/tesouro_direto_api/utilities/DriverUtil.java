@@ -16,7 +16,7 @@ public class DriverUtil {
     public static WebDriver initializeDriver() {
 
 
-        // capturando o arquivo msedgedriver.exe na pasta resources 
+        // capturando o arquivo msedgedriver.exe na pasta resources
         try {
             URL resource = DriverUtil.class.getClassLoader().getResource("msedgedriver.exe");
             if (resource != null) {
@@ -30,7 +30,6 @@ public class DriverUtil {
             e.printStackTrace();
         }
 
-//        System.setProperty("webdriver.edge.driver", String.valueOf(absolutePath));
         EdgeOptions options = new EdgeOptions();
         options.addArguments("--no-sandbox");
         options.addArguments("--disable-dev-shm-usage");
@@ -39,8 +38,6 @@ public class DriverUtil {
         options.setExperimentalOption("useAutomationExtension", null);
         options.addArguments("Window-size=1200,800");
         options.addArguments("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36");
-        return new
-
-                EdgeDriver(options);
+        return new EdgeDriver(options);
     }
 }
