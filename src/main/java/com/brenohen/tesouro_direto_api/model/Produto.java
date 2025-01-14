@@ -1,18 +1,26 @@
 package com.brenohen.tesouro_direto_api.model;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+@Entity
 public class Produto {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String nome;
     private String rentabilidadeAnual;
     private Double investimentoMinimo;
     private Double precoUnitario;
     private Date vencimento;
 
-    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+    public Produto() {}
 
     public Produto(String nome, String rentabilidadeAnual, Double investimentoMinimo, Double precoUnitario, Date vencimento) {
         this.nome = nome;
@@ -20,6 +28,14 @@ public class Produto {
         this.investimentoMinimo = investimentoMinimo;
         this.precoUnitario = precoUnitario;
         this.vencimento = vencimento;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getNome() {
@@ -46,14 +62,6 @@ public class Produto {
         this.investimentoMinimo = investimentoMinimo;
     }
 
-    public Date getVencimento() {
-        return vencimento;
-    }
-
-    public void setVencimento(Date vencimento) {
-        this.vencimento = vencimento;
-    }
-
     public Double getPrecoUnitario() {
         return precoUnitario;
     }
@@ -62,16 +70,18 @@ public class Produto {
         this.precoUnitario = precoUnitario;
     }
 
-    public SimpleDateFormat getSdf() {
-        return sdf;
+    public Date getVencimento() {
+        return vencimento;
     }
 
-    public void setSdf(SimpleDateFormat sdf) {
-        this.sdf = sdf;
+    public void setVencimento(Date vencimento) {
+        this.vencimento = vencimento;
     }
 
     @Override
     public String toString() {
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         return "Produto{" +
                 "nome='" + nome + '\'' +
                 ", rentabilidadeAnual='" + rentabilidadeAnual + '\'' +

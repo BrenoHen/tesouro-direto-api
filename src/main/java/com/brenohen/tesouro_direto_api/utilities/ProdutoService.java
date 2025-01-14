@@ -1,37 +1,41 @@
 package com.brenohen.tesouro_direto_api.utilities;
 
 import com.brenohen.tesouro_direto_api.model.Produto;
+import com.brenohen.tesouro_direto_api.repository.ProdutoRepository;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ProdutoService {
 
     @Autowired
-    private JdbcTemplate jdbcTemplate;
-
-    private List<Produto> produtos;
+    private ProdutoRepository produtoRepository;
 
     @PostConstruct
     public void init() {
-        produtos = ScrapingUtil.rasparDados();
-        inserirProdutosNoBanco();
+        List<Produto> produtos = ScrapingUtil.rasparDados();
+        inserirProdutosNoBanco(produtos);
     }
 
-    private void inserirProdutosNoBanco() {
+    // SALVANDO NO BANCO COM JPA
+    private void inserirProdutosNoBanco(List<Produto> produtos) {
         for (Produto produto : produtos){
-            jdbcTemplate.update(
-                    "INSERT INTO PRODUTO (NOME, RENTABILIDADE_ANUAL, INVESTIMENTO_MINIMO, PRECO_UNITARIO, VENCIMENTO) VALUES (?, ?, ?, ?, ?)",
-                    produto.getNome(), produto.getRentabilidadeAnual(), produto.getInvestimentoMinimo(), produto.getPrecoUnitario(), new java.sql.Date(produto.getVencimento().getTime())
-            );
+            produtoRepository.save(produto);
+            System.out.println(produto);
         }
     }
 
+    // CONSULTANDO TODOS OS TITULOS NO BANCO COM JPA
     public List<Produto> getProdutos() {
-        return produtos;
+        return produtoRepository.findAll();
+    }
+
+    // CONSULTANDO TITULO POR ID NO BANCO COM JPA
+    public Optional<Produto> consultaProdutoPorId(Long id) {
+        return produtoRepository.findById(id);
     }
 }
